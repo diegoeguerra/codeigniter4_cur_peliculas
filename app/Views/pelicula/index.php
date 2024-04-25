@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1> LISTADO DE PELICULAS:  </h1>  
+    <?= view('partials/_vsession') ?>
     <a href="/pelicula/new/" > Crear nueva pelicula </a>       
         <ul>
             <p> <?php foreach ($peliculas as $key => $p) : ?> 

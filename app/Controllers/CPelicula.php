@@ -69,7 +69,7 @@ class CPelicula extends BaseController
 
         $peliculaModel = new MPelicula();
         $peliculaModel->insert($data); 
-        return redirect()->to('pelicula');  
+        return redirect()->to('pelicula')->with('Mensaje','Registro Creado correctamente'); ;  
     }
 
     public function edit($id)
@@ -87,8 +87,9 @@ class CPelicula extends BaseController
           ];        
         //var_dump($data);
         $peliculaModel = new MPelicula();
-        $peliculaModel->update($id,$data); 
+        $peliculaModel->update($id,$data) ; 
         echo 'pelicula actualizada';  
+        return redirect()->to('pelicula')->with('Mensaje','Registro Actualizado correctamente'); ;   
         
         // podemos utilizar cualquiera de las 2
         //return redirect()->back();    
@@ -100,8 +101,9 @@ class CPelicula extends BaseController
     {  
         $peliculaModel = new MPelicula();
         $peliculaModel->delete($id); 
-        echo 'pelicula eliminada';       
-        return redirect()->to('pelicula');   
+        echo 'pelicula eliminada';   
+        session()->setFlashdata('Mensaje','Resgistro eliminado correctamente');    
+        return redirect()->to('pelicula')->with('Mensaje','Registro Eliminado correctamente'); ;   
     }
 
 

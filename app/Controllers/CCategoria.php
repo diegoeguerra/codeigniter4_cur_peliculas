@@ -10,6 +10,7 @@ class CCategoria extends BaseController
 
     public function index()
     {
+        session()->set('key','Valor de mi variable de session Key');
         $categoriaModel = new MCategoria();
 
          //var_dump(  $categoriaModel->findAll() ); // muestra todos los registros
@@ -53,6 +54,8 @@ class CCategoria extends BaseController
 
     public function show($id)
     {   
+        
+
         $categoriaModel = new MCategoria();                
         $data =['categoria'=>$categoriaModel->find($id)];
         echo view('categoria/vshow.php',$data);
@@ -66,7 +69,7 @@ class CCategoria extends BaseController
                 ];
         $categoriaModel = new MCategoria();
         $categoriaModel->insert($data); 
-        return redirect()->to('categoria'); 
+        return redirect()->to('categoria')->with('Mensaje','Registro Creado correctamente'); 
     }
 
     public function edit($id)
@@ -83,17 +86,15 @@ class CCategoria extends BaseController
             'descripcion' => $this->request->getPost('descripcion')
           ];                
         $categoriaModel = new MCategoria();
-        $categoriaModel->update($id,$data); 
-        echo 'categoria actualizada'; 
-        return redirect()->to('categoria');         
+        $categoriaModel->update($id,$data);         
+        return redirect()->to('categoria')->with('Mensaje','Registro Actulizado correctamente');         
     }
 
     public function delete($id)
     {  
         $categoriaModel = new MCategoria();
-        $categoriaModel->delete($id); 
-        echo 'categoria eliminada';  
-        return redirect()->to('categoria');               
+        $categoriaModel->delete($id);         
+        return redirect()->to('categoria')->with('Mensaje','Registro Eliminado correctamente');               
     }
 
 

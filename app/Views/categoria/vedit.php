@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Actualizar Pelicula </title>
 </head>
-<body>        
+<body>  
         <form action="/categoria/update/<?= $categoria['id'] ?>" method="post">            
            <?= view('categoria/_form',['op'=>'Actualizar']) ?>
         </form>

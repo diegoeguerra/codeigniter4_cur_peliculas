@@ -7,6 +7,8 @@
 </head>
 <body>
     <h1> LISTADO DE CATEGORIAS:  </h1>  
+    <?= session('key') ?>
+    <?= view('partials/_vsession') ?>
     <a href="/categoria/new/" > Crear nueva Categoria </a>       
         <ul>
             <p> <?php foreach ($categoria as $key => $p) : ?> 
