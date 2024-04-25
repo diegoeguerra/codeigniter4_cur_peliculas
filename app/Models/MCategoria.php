@@ -6,11 +6,12 @@ use CodeIgniter\Model;
 
 class MCategoria extends Model
 {
-    protected $table            = 'categorias';
+    protected $table            = 'categorias';    
+    protected $primaryKey       = 'id';
+    protected $allowedFields    = ['titulo','descripcion'];  // campos que seran editable4s
     
     // esto no lo estaremos utilizando
-    /*
-    protected $primaryKey       = 'id';
+    /*    
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
