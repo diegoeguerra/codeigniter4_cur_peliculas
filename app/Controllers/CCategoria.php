@@ -66,13 +66,14 @@ class CCategoria extends BaseController
                 ];
         $categoriaModel = new MCategoria();
         $categoriaModel->insert($data); 
+        return redirect()->to('categoria'); 
     }
 
     public function edit($id)
     {        
         $categoriaModel = new MCategoria();        
         $data =['categoria'=>$categoriaModel->find($id)];        
-        echo view('categoria/vedit.php',$data);
+        echo view('categoria/vedit.php',$data);        
     }
 
     public function update($id)
@@ -83,14 +84,16 @@ class CCategoria extends BaseController
           ];                
         $categoriaModel = new MCategoria();
         $categoriaModel->update($id,$data); 
-        echo 'categoria actualizada';        
+        echo 'categoria actualizada'; 
+        return redirect()->to('categoria');         
     }
 
     public function delete($id)
     {  
         $categoriaModel = new MCategoria();
         $categoriaModel->delete($id); 
-        echo 'categoria eliminada';        
+        echo 'categoria eliminada';  
+        return redirect()->to('categoria');               
     }
 
 

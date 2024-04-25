@@ -11,26 +11,32 @@ use CodeIgniter\Router\RouteCollection;
 
  //$routes->get('pelicula', 'Home::index');
 
-$routes->get('pelicula',             'CPelicula::index');
-$routes->get('pelicula/show/(:any)', 'CPelicula::show/$1');
-$routes->get('pelicula/new',         'CPelicula::new');
-$routes->get('pelicula/edit/(:any)', 'CPelicula::edit/$1');
 
-$routes->post('pelicula/create',        'CPelicula::create');
-$routes->post('pelicula/update/(:any)', 'CPelicula::update/$1');
-$routes->post('pelicula/delete/(:any)', 'CPelicula::delete/$1');
+// $routes->group('dashboard',function($routes){
+   // http://peliculas.test/dashboard/pelicula
+    $routes->get('pelicula',             'CPelicula::index');
+    $routes->get('pelicula/show/(:any)', 'CPelicula::show/$1');
+    $routes->get('pelicula/new',         'CPelicula::new');
+    $routes->get('pelicula/edit/(:any)', 'CPelicula::edit/$1');
+
+    $routes->post('pelicula/create',        'CPelicula::create');
+    $routes->post('pelicula/update/(:any)', 'CPelicula::update/$1');
+    $routes->post('pelicula/delete/(:any)', 'CPelicula::delete/$1');
 
 
+    // http://peliculas.test/dashboard/categoria
+    $routes->get('categoria',             'CCategoria::index');
+    $routes->get('categoria/show/(:any)', 'CCategoria::show/$1');
+    $routes->get('categoria/new',         'CCategoria::new');
+    $routes->get('categoria/edit/(:any)', 'CCategoria::edit/$1');
 
-$routes->get('categoria',             'CCategoria::index');
-$routes->get('categoria/show/(:any)', 'CCategoria::show/$1');
-$routes->get('categoria/new',         'CCategoria::new');
-$routes->get('categoria/edit/(:any)', 'CCategoria::edit/$1');
+    $routes->post('categoria/create',        'CCategoria::create');
+    $routes->post('categoria/update/(:any)', 'CCategoria::update/$1');
+    $routes->post('categoria/delete/(:any)', 'CCategoria::delete/$1');
 
-$routes->post('categoria/create',        'CCategoria::create');
-$routes->post('categoria/update/(:any)', 'CCategoria::update/$1');
-$routes->post('categoria/delete/(:any)', 'CCategoria::delete/$1');
+    //$routes ->presenter('ccategoria',['only'=>'index']);
 
+ //});
 
 //$routes ->presenter('cpelicula');
 /*

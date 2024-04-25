@@ -69,6 +69,7 @@ class CPelicula extends BaseController
 
         $peliculaModel = new MPelicula();
         $peliculaModel->insert($data); 
+        return redirect()->to('pelicula');  
     }
 
     public function edit($id)
@@ -87,14 +88,20 @@ class CPelicula extends BaseController
         //var_dump($data);
         $peliculaModel = new MPelicula();
         $peliculaModel->update($id,$data); 
-        echo 'pelicula actualizada';        
+        echo 'pelicula actualizada';  
+        
+        // podemos utilizar cualquiera de las 2
+        //return redirect()->back();    
+        return redirect()->to('pelicula');    
+
     }
 
     public function delete($id)
     {  
         $peliculaModel = new MPelicula();
         $peliculaModel->delete($id); 
-        echo 'pelicula eliminada';        
+        echo 'pelicula eliminada';       
+        return redirect()->to('pelicula');   
     }
 
 
