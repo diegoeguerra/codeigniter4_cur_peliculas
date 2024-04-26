@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Crear Categoria </title>
-</head>
-<body>
-        
-        <form action="/categoria/create" method="post"> 
+ <?= $this->extend('Layouts/vlayout') ?>
+  
+<?= $this->section('header') ?>
+Crear Categoria
+<?= $this->endSection() ?>    
+
+<?= $this->section('contenido') ?> 
+<form action="/categoria/create" method="post"> 
             <?= view('categoria/_form',['op'=>'Crear']) ?>
             <!--
             <label for="titulo"> Titulo </label>
@@ -17,6 +15,4 @@
             <button type="submit"> Enviar </button>
             -->
         </form>
-
-</body>
-</html>
+<?= $this->endSection() ?>  

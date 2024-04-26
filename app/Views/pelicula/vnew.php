@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Crear Pelicula </title>
-</head>
-<body>
-        
-        <form action="/pelicula/create" method="post"> 
+<?= $this->extend('Layouts/vlayout') ?>
+  
+<?= $this->section('header') ?>
+Crear Pelicula 
+<?= $this->endSection() ?>    
+
+<?= $this->section('contenido') ?> 
+    <form action="/pelicula/create" method="post"> 
             <?= view('pelicula/_form',['op'=>'Crear']) ?>
             <!--
             <label for="titulo"> Titulo </label>
@@ -16,7 +14,5 @@
             <textarea type="descripcion" name="descripcion"></textarea>
             <button type="submit"> Enviar </button>
             -->
-        </form>
-
-</body>
-</html>
+    </form>
+<?= $this->endSection() ?>  

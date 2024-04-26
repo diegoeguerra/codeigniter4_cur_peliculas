@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categorias</title>
-</head>
-<body>
-    <h1> LISTADO DE CATEGORIAS:  </h1>  
-    <?= session('key') ?>
-    <?= view('partials/_vsession') ?>
+<?= $this->extend('Layouts/vlayout') ?>
+  
+<?= $this->section('header') ?>
+        Listado de categorias
+<?= $this->endSection() ?>    
+
+<?= $this->section('contenido') ?> 
     <a href="/categoria/new/" > Crear nueva Categoria </a>       
         <ul>
             <p> <?php foreach ($categoria as $key => $p) : ?> 
@@ -40,7 +36,7 @@
             </tr>
                 <?php endforeach ?>            
         </table>
+ <?= $this->endSection() ?>
 
-
-</body>
-</html>
+    
+    
