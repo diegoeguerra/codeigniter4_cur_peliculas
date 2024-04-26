@@ -51,6 +51,7 @@ class CPelicula extends BaseController
                     ]);
     }
 
+
     public function show($id)
     {        
         //echo 'class CPelicula  ==>  public function show($id) => '. $id;        
@@ -60,6 +61,8 @@ class CPelicula extends BaseController
         echo view('pelicula/vshow.php',$data);
     }
 
+
+
     public function create()
     {   //var_dump($this->request->getPost('titulo'));
         $data =[
@@ -68,9 +71,22 @@ class CPelicula extends BaseController
                 ];
 
         $peliculaModel = new MPelicula();
-        $peliculaModel->insert($data); 
-        return redirect()->to('pelicula')->with('Mensaje','Registro Creado correctamente'); ;  
+        
+        if( $this->validate('peliculas')){ // agregamos validaciones configurada en el archivo validation.php
+            $peliculaModel->insert($data); 
+            return redirect()->to('pelicula')->with('Mensaje','Registro Creado correctamente');
+        }else{            
+            session()->setFlashdata([
+                'validation' => $this->validator
+            ]);
+            // si no pasa las validaciones 
+            // regresa a su propia pantalla con un mensaje de error que se despliega en vedit.php  view('partials/_form-error.php')
+             // ->withInput();   le pasa los valores ingresados al formulario esto es paera que no se pierdan
+             return redirect()->back()->withInput();
+        }
     }
+
+
 
     public function edit($id)
     {        
@@ -79,21 +95,36 @@ class CPelicula extends BaseController
         echo view('pelicula/vedit.php',$data);
     }
 
+
+
+
     public function update($id)
     {     
         $data =[
             'titulo'      => $this->request->getPost('titulo'),
             'descripcion' => $this->request->getPost('descripcion')
-          ];        
+          ];               
+
         //var_dump($data);
         $peliculaModel = new MPelicula();
-        $peliculaModel->update($id,$data) ; 
-        echo 'pelicula actualizada';  
-        return redirect()->to('pelicula')->with('Mensaje','Registro Actualizado correctamente'); ;   
-        
-        // podemos utilizar cualquiera de las 2
-        //return redirect()->back();    
-        return redirect()->to('pelicula');    
+
+        if( $this->validate('peliculas')){ // agregamos validaciones configurada en el archivo validation.php
+            $peliculaModel->update($id,$data) ; 
+            
+            // si las validaciones las cumple regresa a la pantalla principal
+            return redirect()->to('pelicula')->with('Mensaje','Registro Actualizado correctamente'); 
+        }else{
+            //var_dump( $this->validator->getError('titulo'));
+            //var_dump( $this->validator->listErrors());
+            session()->setFlashdata([
+                'validation' => $this->validator
+            ]);
+            // si no pasa las validaciones 
+            // regresa a su propia pantalla con un mensaje de error que se despliega en vedit.php  view('partials/_form-error.php')
+             // ->withInput();   le pasa los valores ingresados al formulario esto es paera que no se pierdan
+             return redirect()->back()->withInput();
+        }
+
 
     }
 
@@ -103,7 +134,7 @@ class CPelicula extends BaseController
         $peliculaModel->delete($id); 
         echo 'pelicula eliminada';   
         session()->setFlashdata('Mensaje','Resgistro eliminado correctamente');    
-        return redirect()->to('pelicula')->with('Mensaje','Registro Eliminado correctamente'); ;   
+        return redirect()->to('pelicula')->with('Mensaje','Registro Eliminado correctamente');    
     }
 
 

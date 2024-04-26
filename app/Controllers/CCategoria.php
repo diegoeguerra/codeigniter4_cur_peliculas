@@ -67,10 +67,24 @@ class CCategoria extends BaseController
                   'titulo'      => $this->request->getPost('titulo'),
                   'descripcion' => $this->request->getPost('descripcion')
                 ];
+
         $categoriaModel = new MCategoria();
-        $categoriaModel->insert($data); 
-        return redirect()->to('categoria')->with('Mensaje','Registro Creado correctamente'); 
+        
+        if( $this->validate('categorias')){ // agregamos validaciones configurada en el archivo validation.php
+            $categoriaModel->insert($data); 
+            return redirect()->to('categoria')->with('Mensaje','Registro Creado correctamente'); 
+        }else{            
+            session()->setFlashdata([
+                'validation' => $this->validator
+            ]);
+            // si no pasa las validaciones 
+            // regresa a su propia pantalla con un mensaje de error que se despliega en vedit.php  view('partials/_form-error.php')
+            // ->withInput();   le pasa los valores ingresados al formulario esto es paera que no se pierdan
+            return redirect()->back()->withInput();
+        }        
     }
+
+
 
     public function edit($id)
     {        
@@ -79,6 +93,8 @@ class CCategoria extends BaseController
         echo view('categoria/vedit.php',$data);        
     }
 
+
+
     public function update($id)
     {     
         $data =[
@@ -86,9 +102,24 @@ class CCategoria extends BaseController
             'descripcion' => $this->request->getPost('descripcion')
           ];                
         $categoriaModel = new MCategoria();
-        $categoriaModel->update($id,$data);         
-        return redirect()->to('categoria')->with('Mensaje','Registro Actulizado correctamente');         
+        
+        if( $this->validate('categorias')){ // agregamos validaciones configurada en el archivo validation.php
+            $categoriaModel->update($id,$data);            
+            // si las validaciones las cumple regresa a la pantalla principal
+            return redirect()->to('categoria')->with('Mensaje','Registro Actulizado correctamente');         
+        }else{            
+            session()->setFlashdata([
+              'validation' => $this->validator
+            ]);
+            // si no pasa las validaciones 
+            // regresa a su propia pantalla con un mensaje de error que se despliega en vedit.php  view('partials/_form-error.php')
+             // ->withInput();   le pasa los valores ingresados al formulario esto es paera que no se pierdan
+             return redirect()->back()->withInput();
+            
+        }
     }
+
+
 
     public function delete($id)
     {  
