@@ -7,6 +7,7 @@ use CodeIgniter\Model;
 class MPelicula extends Model
 {
     protected $table            = 'peliculas';
+    protected $returnType       = 'object';
     protected $primaryKey       = 'id';
     protected $allowedFields    = ['titulo','descripcion'];  // campos que seran editable4s
 

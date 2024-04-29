@@ -7,6 +7,7 @@ use CodeIgniter\Model;
 class MCategoria extends Model
 {
     protected $table            = 'categorias';    
+    protected $returnType       = 'object';
     protected $primaryKey       = 'id';
     protected $allowedFields    = ['titulo','descripcion'];  // campos que seran editable4s
     

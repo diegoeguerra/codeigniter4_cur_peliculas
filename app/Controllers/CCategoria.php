@@ -17,8 +17,7 @@ class CCategoria extends BaseController
         // var_dump(  $categoriaModel->findAll()[0] ); // trae el registro 0, ose al primer registro recuperado
         // var_dump(  $categoriaModel->findAll()[0]['titulo'] ); // trae el registro 0, ose al primer registro recuperado
         
-        $data =['categoria'=>$categoriaModel->findAll()                 
-                ];
+        $data =['categoria'=>$categoriaModel->asObject()->findAll()];
         /*
         array(3) { 
             [0]=> array(3) { ["id"]          => string(1)  "1" 
@@ -40,27 +39,22 @@ class CCategoria extends BaseController
         echo view('categoria/index.php',$data);
         
     }
-
+// ************************************************************************************
     public function new()
     {
         echo view('categoria/vnew',[
                         // le pasamos estos parametros al nuevo formulario
-                        'categoria' => [  
-                            'titulo'    => 'titulo de la categorias',
-                            'descripcion'=> 'descripcion de la categoria'
-                                ]
+                        'categoria' =>new CategoriaModel()
                     ]);
     }
-
+// ************************************************************************************
     public function show($id)
     {   
-        
-
         $categoriaModel = new MCategoria();                
-        $data =['categoria'=>$categoriaModel->find($id)];
-        echo view('categoria/vshow.php',$data);
+        $data =['categoria'=>$categoriaModel->asObject()->find($id)];
+        echo view('categoria/vshow.php',$data);     
     }
-
+// ************************************************************************************
     public function create()
     {   
         $data =[
@@ -84,17 +78,14 @@ class CCategoria extends BaseController
         }        
     }
 
-
-
+// ************************************************************************************
     public function edit($id)
     {        
         $categoriaModel = new MCategoria();        
-        $data =['categoria'=>$categoriaModel->find($id)];        
+        $data =['categoria'=>$categoriaModel->asObject()->find($id)];        
         echo view('categoria/vedit.php',$data);        
     }
-
-
-
+// ************************************************************************************
     public function update($id)
     {     
         $data =[
@@ -118,8 +109,7 @@ class CCategoria extends BaseController
             
         }
     }
-
-
+// ************************************************************************************
 
     public function delete($id)
     {  

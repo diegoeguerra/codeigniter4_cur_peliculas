@@ -8,7 +8,7 @@ Actualizar Pelicula
     
     <?= view('partials/_form-error.php')?>
     
-    <form action="/pelicula/update/<?= $pelicula['id'] ?>" method="post">            
+    <form action="/pelicula/update/<?= $pelicula->id ?>" method="post">            
         <?= view('pelicula/_form',['op'=>'Actualizar']) ?>
     </form>
     

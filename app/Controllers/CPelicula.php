@@ -16,8 +16,15 @@ class CPelicula extends BaseController
         // var_dump(  $peliculaModel->findAll()[0] ); // trae el registro 0, ose al primer registro recuperado
         // var_dump(  $peliculaModel->findAll()[0]['titulo'] ); // trae el registro 0, ose al primer registro recuperado
         
-        $data =['peliculas'=>$peliculaModel->findAll()                 
-                ];
+        
+
+        //$db = \Config\Database::connect();
+        //$builder = $db->table('peliculas');
+        //return $builder->limit(10,20)->getCompiledSelected();
+        //$this->db->get_compiled_select();
+
+
+        $data =['peliculas'=>$peliculaModel->asObject()->findAll()];
         /*
         array(3) { 
             [0]=> array(3) { ["id"]          => string(1)  "1" 
@@ -35,12 +42,22 @@ class CPelicula extends BaseController
                                 } 
                         }
         */
+        echo view('pelicula/index.php',$data);        
+    }
+// ************************************************************************************
+    public function index2()
+    {
+        // esto lo utilizamos para retornar el select que se ejecuta de manera interna en la app
+        // es para  validar cualquier 
+        $db = \Config\Database::connect();
+        $builder = $db->table('peliculas');
+        return $builder->limit(10,20)->getCompiledSelect();
 
-        echo view('pelicula/index.php',$data);
-        
     }
 
-    public function new()
+// ************************************************************************************    
+
+    public function new_anterior()
     {
         echo view('pelicula/vnew',[
                         // le pasamos estos parametros al nuevo formulario
@@ -51,8 +68,16 @@ class CPelicula extends BaseController
                     ]);
     }
 
+    public function new()
+    {
+        echo view('pelicula/vnew',[
+                        // le pasamos estos parametros al nuevo formulario
+                        'pelicula' => new PeliculaModel()
+                    ]);
+    }
 
-    public function show($id)
+// ************************************************************************************
+    public function show2($id)
     {        
         //echo 'class CPelicula  ==>  public function show($id) => '. $id;        
         $peliculaModel = new MPelicula();        
@@ -60,8 +85,19 @@ class CPelicula extends BaseController
         $data =['pelicula'=>$peliculaModel->find($id)];
         echo view('pelicula/vshow.php',$data);
     }
+// ************************************************************************************
+public function show($id)
+{   
+    $peliculaModel = new MPelicula();            
 
-
+    //$data =['pelicula'=>$peliculaModel->find($id)];    
+    $data =['pelicula'=>$peliculaModel->asObject()->find($id)];                   
+    //var_dump($peliculaModel->asArray()->find($id));
+    var_dump($peliculaModel->asObject()->find($id));
+    //return;
+    echo view('pelicula/vshow.php',$data);
+}
+// ************************************************************************************
 
     public function create()
     {   //var_dump($this->request->getPost('titulo'));
@@ -86,17 +122,16 @@ class CPelicula extends BaseController
         }
     }
 
-
+// ************************************************************************************
 
     public function edit($id)
     {        
         $peliculaModel = new MPelicula();        
-        $data =['pelicula'=>$peliculaModel->find($id)];        
+        $data =['pelicula'=>$peliculaModel->asObject()->find($id)];        
         echo view('pelicula/vedit.php',$data);
     }
 
-
-
+// ************************************************************************************
 
     public function update($id)
     {     
@@ -124,9 +159,9 @@ class CPelicula extends BaseController
              // ->withInput();   le pasa los valores ingresados al formulario esto es paera que no se pierdan
              return redirect()->back()->withInput();
         }
-
-
     }
+
+// ************************************************************************************
 
     public function delete($id)
     {  
@@ -136,7 +171,7 @@ class CPelicula extends BaseController
         session()->setFlashdata('Mensaje','Resgistro eliminado correctamente');    
         return redirect()->to('pelicula')->with('Mensaje','Registro Eliminado correctamente');    
     }
-
+// ************************************************************************************
 
 /*
     public function mi_controller_prueba()
