@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peliculas</title>
-</head>
-<body>
-    <h1> LISTADO DE PELICULAS:  </h1>  
+<?= $this->extend('Layouts/vlayout') ?>
+  
+<?= $this->section('header') ?>
+        Listado de Pelicula
+<?= $this->endSection() ?>    
+
+<?= $this->section('contenido') ?>     
     <?= view('partials/_vsession') ?>
-    <a href="/pelicula/new/" > Crear nueva pelicula </a>       
+    <a href="pelicula/new/" > Crear nueva pelicula </a>       
         <ul>
             <p> <?php foreach ($peliculas as $key => $p) : ?> 
                 <li>  <?= $p->titulo ?> </li>
@@ -49,9 +47,9 @@
                 <td>  <?= $p->id ?> </td>
                 <td>  <?= $p->titulo ?> </td>
                 <td>  <?= $p->descripcion ?> </td>                
-                <td> <a href="/pelicula/show/<?= $p->id ?>" >  Show </a>  
-                     <a href="/pelicula/edit/<?= $p->id ?>" >  Editar </a>  
-                     <form action="/pelicula/delete/<?= $p->id ?>" method="post"> 
+                <td> <a href="pelicula/show/<?= $p->id ?>" >  Show </a>  
+                     <a href="pelicula/edit/<?= $p->id ?>" >  Editar </a>  
+                     <form action="pelicula/delete/<?= $p->id ?>" method="post"> 
                         <button type="submit"> Eliminar </button>
                      </form>                
                 </td>
@@ -60,5 +58,4 @@
         </table>
 
 
-</body>
-</html>
+<?= $this->endSection() ?>

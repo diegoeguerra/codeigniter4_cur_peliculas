@@ -41,12 +41,22 @@ class Validation extends BaseConfig
     // --------------------------------------------------------------------
     // Rules
     // --------------------------------------------------------------------
+    // para manejo de usuario-login
+    public $usuarios = [
+        'usuario'       =>'required|min_length[3]|max_length[20]|is_unique[usuarios.usuario]',
+        'email'         =>'required|min_length[3]|max_length[70]|is_unique[usuarios.email]',
+        'contrasena'    =>'required|min_length[3]|max_length[70]'
+    ];
+    
     public $categorias = [
-        'titulo'=>'required|min_length[3]|max_length[255]'
+        'titulo'        =>'required|min_length[3]|max_length[255]'
     ];
 
     public $peliculas = [
-        'titulo'      =>'required|min_length[3]|max_length[255]',
-        'descripcion' =>'required|min_length[3]|max_length[200]'
+        'titulo'        =>'required|min_length[3]|max_length[255]',
+        'descripcion'   =>'required|min_length[3]|max_length[200]'
     ];
+
+    
+
 }

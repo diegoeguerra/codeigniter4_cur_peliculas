@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Dashboard;
 
 use App\Models\MPelicula;
+use App\Controllers\BaseController;
+
 
 class CPelicula extends BaseController
 {
@@ -42,7 +44,7 @@ class CPelicula extends BaseController
                                 } 
                         }
         */
-        echo view('pelicula/index.php',$data);        
+        echo view('dashboard/pelicula/index.php',$data);        
     }
 // ************************************************************************************
     public function index2()
@@ -59,7 +61,7 @@ class CPelicula extends BaseController
 
     public function new_anterior()
     {
-        echo view('pelicula/vnew',[
+        echo view('dashboard/pelicula/vnew',[
                         // le pasamos estos parametros al nuevo formulario
                         'pelicula' => [  
                             'titulo'    => 'titulo de la peliculas',
@@ -70,9 +72,9 @@ class CPelicula extends BaseController
 
     public function new()
     {
-        echo view('pelicula/vnew',[
+        echo view('dashboard/pelicula/vnew',[
                         // le pasamos estos parametros al nuevo formulario
-                        'pelicula' => new PeliculaModel()
+                        'pelicula' => new Mpelicula()
                     ]);
     }
 
@@ -83,7 +85,7 @@ class CPelicula extends BaseController
         $peliculaModel = new MPelicula();        
         //var_dump($peliculaModel->find($id)['titulo']);
         $data =['pelicula'=>$peliculaModel->find($id)];
-        echo view('pelicula/vshow.php',$data);
+        echo view('dashboard/pelicula/vshow.php',$data);
     }
 // ************************************************************************************
 public function show($id)
@@ -95,7 +97,7 @@ public function show($id)
     //var_dump($peliculaModel->asArray()->find($id));
     var_dump($peliculaModel->asObject()->find($id));
     //return;
-    echo view('pelicula/vshow.php',$data);
+    echo view('dashboard/pelicula/vshow.php',$data);
 }
 // ************************************************************************************
 
@@ -110,7 +112,7 @@ public function show($id)
         
         if( $this->validate('peliculas')){ // agregamos validaciones configurada en el archivo validation.php
             $peliculaModel->insert($data); 
-            return redirect()->to('pelicula')->with('Mensaje','Registro Creado correctamente');
+            return redirect()->to('dashboard/pelicula')->with('Mensaje','Registro Creado correctamente');
         }else{            
             session()->setFlashdata([
                 'validation' => $this->validator
@@ -128,7 +130,7 @@ public function show($id)
     {        
         $peliculaModel = new MPelicula();        
         $data =['pelicula'=>$peliculaModel->asObject()->find($id)];        
-        echo view('pelicula/vedit.php',$data);
+        echo view('dashboard/pelicula/vedit.php',$data);
     }
 
 // ************************************************************************************
@@ -147,7 +149,7 @@ public function show($id)
             $peliculaModel->update($id,$data) ; 
             
             // si las validaciones las cumple regresa a la pantalla principal
-            return redirect()->to('pelicula')->with('Mensaje','Registro Actualizado correctamente'); 
+            return redirect()->to('dashboard/pelicula')->with('Mensaje','Registro Actualizado correctamente'); 
         }else{
             //var_dump( $this->validator->getError('titulo'));
             //var_dump( $this->validator->listErrors());
@@ -169,7 +171,7 @@ public function show($id)
         $peliculaModel->delete($id); 
         echo 'pelicula eliminada';   
         session()->setFlashdata('Mensaje','Resgistro eliminado correctamente');    
-        return redirect()->to('pelicula')->with('Mensaje','Registro Eliminado correctamente');    
+        return redirect()->to('dashboard/pelicula')->with('Mensaje','Registro Eliminado correctamente');    
     }
 // ************************************************************************************
 

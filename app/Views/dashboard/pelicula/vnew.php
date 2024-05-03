@@ -4,12 +4,10 @@
 Crear Pelicula 
 <?= $this->endSection() ?>    
 
-<?= $this->section('contenido') ?> 
-    
+<?= $this->section('contenido') ?>     
     <?= view('partials/_form-error.php')?>
-
-    <form action="/pelicula/create" method="post"> 
-                <?= view('pelicula/_form',['op'=>'Crear']) ?>
+    <form action="/dashboard/pelicula/create" method="post"> 
+                <?= view('dashboard/pelicula/_form',['op'=>'Crear']) ?>
                 <!--
                 <label for="titulo"> Titulo </label>
                 <input type="text" name="titulo" placeholder="titulo" id="titulo">

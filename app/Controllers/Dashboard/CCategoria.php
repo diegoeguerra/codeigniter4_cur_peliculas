@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Dashboard;
 
+use App\Controllers\BaseController;
 use App\Models\MCategoria;
+
 
 class CCategoria extends BaseController
 {
@@ -12,39 +14,15 @@ class CCategoria extends BaseController
     {
         session()->set('key','Valor de mi variable de session Key');
         $categoriaModel = new MCategoria();
-
-         //var_dump(  $categoriaModel->findAll() ); // muestra todos los registros
-        // var_dump(  $categoriaModel->findAll()[0] ); // trae el registro 0, ose al primer registro recuperado
-        // var_dump(  $categoriaModel->findAll()[0]['titulo'] ); // trae el registro 0, ose al primer registro recuperado
-        
-        $data =['categoria'=>$categoriaModel->asObject()->findAll()];
-        /*
-        array(3) { 
-            [0]=> array(3) { ["id"]          => string(1)  "1" 
-                                ["titulo"]      => string(10) "El padrino" 
-                                ["description"] => string(37) "categoria de matadera droga y gangster" 
-                                } 
-                                
-            [1]=> array(3) { ["id"]          => string(1) "2" 
-                                ["titulo"]      => string(17) "EL ciudadano kane" 
-                                ["description"] => string(15) "categoria buenoa" 
-                                } 
-            [2]=> array(3) { ["id"]          => string(1) "3" 
-                                ["titulo"]      => string(30) "Cantando bajo la lluvia (1952)" 
-                                ["description"] => string(17) "categoria drmatica" 
-                                } 
-                        }
-        */
-
-        echo view('categoria/index.php',$data);
-        
+        $data =['categoria'=>$categoriaModel->asObject()->findAll()];        
+        echo view('dashboard/categoria/index.php',$data);        
     }
 // ************************************************************************************
     public function new()
     {
-        echo view('categoria/vnew',[
+        echo view('dashboard/categoria/vnew',[
                         // le pasamos estos parametros al nuevo formulario
-                        'categoria' =>new CategoriaModel()
+                        'categoria' =>new MCategoria()
                     ]);
     }
 // ************************************************************************************
@@ -52,7 +30,7 @@ class CCategoria extends BaseController
     {   
         $categoriaModel = new MCategoria();                
         $data =['categoria'=>$categoriaModel->asObject()->find($id)];
-        echo view('categoria/vshow.php',$data);     
+        echo view('dashboard/categoria/vshow.php',$data);     
     }
 // ************************************************************************************
     public function create()
@@ -66,7 +44,7 @@ class CCategoria extends BaseController
         
         if( $this->validate('categorias')){ // agregamos validaciones configurada en el archivo validation.php
             $categoriaModel->insert($data); 
-            return redirect()->to('categoria')->with('Mensaje','Registro Creado correctamente'); 
+            return redirect()->to('dashboard/categoria')->with('Mensaje','Registro Creado correctamente'); 
         }else{            
             session()->setFlashdata([
                 'validation' => $this->validator
@@ -83,7 +61,7 @@ class CCategoria extends BaseController
     {        
         $categoriaModel = new MCategoria();        
         $data =['categoria'=>$categoriaModel->asObject()->find($id)];        
-        echo view('categoria/vedit.php',$data);        
+        echo view('dashboard/categoria/vedit',$data);        
     }
 // ************************************************************************************
     public function update($id)
@@ -97,7 +75,7 @@ class CCategoria extends BaseController
         if( $this->validate('categorias')){ // agregamos validaciones configurada en el archivo validation.php
             $categoriaModel->update($id,$data);            
             // si las validaciones las cumple regresa a la pantalla principal
-            return redirect()->to('categoria')->with('Mensaje','Registro Actulizado correctamente');         
+            return redirect()->to('dashboard/categoria')->with('Mensaje','Registro Actulizado correctamente');         
         }else{            
             session()->setFlashdata([
               'validation' => $this->validator
@@ -115,7 +93,7 @@ class CCategoria extends BaseController
     {  
         $categoriaModel = new MCategoria();
         $categoriaModel->delete($id);         
-        return redirect()->to('categoria')->with('Mensaje','Registro Eliminado correctamente');               
+        return redirect()->to('dashboard/categoria')->with('Mensaje','Registro Eliminado correctamente');               
     }
 
 

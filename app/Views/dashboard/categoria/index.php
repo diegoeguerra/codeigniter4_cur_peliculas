@@ -4,8 +4,9 @@
         Listado de categorias
 <?= $this->endSection() ?>    
 
-<?= $this->section('contenido') ?> 
-    <a href="/categoria/new/" > Crear nueva Categoria </a>       
+<?= $this->section('contenido') ?>
+    
+    <a href="categoria/new/" > Crear nueva Categoria </a>       
         <ul>
             <p> <?php foreach ($categoria as $key => $p) : ?> 
                 <li>  <?= $p->titulo ?> </li>
@@ -27,9 +28,9 @@
                 <td>  <?= $p->id ?> </td>
                 <td>  <?= $p->titulo ?> </td>
                 <td>  <?= $p->descripcion ?> </td>                
-                <td> <a href="/categoria/show/<?= $p->id ?>" >  Show </a>  
-                     <a href="/categoria/edit/<?= $p->id ?>" >  Editar </a>  
-                     <form action="/categoria/delete/<?= $p->id ?>" method="post"> 
+                <td> <a href="categoria/show/<?= $p->id ?>" >  Show </a>  
+                     <a href="categoria/edit/<?= $p->id ?>" >  Editar </a>  
+                     <form action="categoria/delete/<?= $p->id ?>" method="post"> 
                         <button type="submit"> Eliminar </button>
                      </form>                
                 </td>

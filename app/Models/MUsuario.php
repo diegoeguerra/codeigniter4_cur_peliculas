@@ -4,21 +4,27 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class MPelicula extends Model
+class MUsuario extends Model
 {
-    protected $table            = 'peliculas';    
-    protected $primaryKey       = 'id';
-    protected $returnType       = 'object';
-    protected $allowedFields    = ['titulo','descripcion'];  // campos que seran editable4s
+    protected $table            = 'usuarios';
+    protected $primaryKey       = 'id';    
+    protected $returnType       = 'object';    
+    protected $allowedFields    = ['usuario','email','contrasena']; // campos que se permite modificar
 
-    // esto no lo estaremos utilizando
-    /*    
-    protected $useAutoIncrement = true;
-    protected $returnType       = 'array';
+    public function contrasenaHash( $contrasenaHash)
+    {
+        return password_hash($contrasenaHash,PASSWORD_DEFAULT);
+    }
+
+    public function contrasenaVerificar($contrasenaPlano,$contrasenaHash)
+    {
+        return password_verify($contrasenaPlano,$contrasenaHash);
+    }
+
+/*
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    
-
+    protected $useAutoIncrement = true;
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
 

@@ -5,9 +5,9 @@ Crear Categoria
 <?= $this->endSection() ?>    
 
 <?= $this->section('contenido') ?> 
-        <?= view('partials/_form-error.php')?>
-        <form action="/categoria/create" method="post"> 
-                    <?= view('categoria/_form',['op'=>'Crear']) ?>
+        <?= view('partials/_form-error.php')?>        
+        <form action="/dashboard/categoria/create" method="post"> 
+                <?= view('dashboard/categoria/_form',['op'=>'Crear']) ?>
                     <!--
                     <label for="titulo"> Titulo </label>
                     <input type="text" name="titulo" placeholder="titulo" id="titulo">
