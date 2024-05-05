@@ -45,6 +45,36 @@ use CodeIgniter\Router\RouteCollection;
     $routes ->get( 'register',      'Web\CUsuario::register',     ['as'=>'usuario.register']);
     $routes ->post('register_post', 'Web\CUsuario::register_post',['as'=>'usuario.register_post']);
 
+    //$routes->resource('pelicula','Api\APelicula::index');
+
+    $routes->resource('Pelicula');
+    $routes->get('api/pelicula', 'Api\APelicula::index');   
+    //http://peliculas.test/api/pelicula    o    http://peliculas.test/api/pelicula?format=json
+    $routes->get('api/pelicula/(:any)',     'Api\APelicula::show/$1');    
+    $routes->post('api/pelicula',           'Api\APelicula::create');    
+    $routes->put( 'api/pelicula/(:any)',    'Api\APelicula::update/$1');
+    $routes->patch('api/pelicula/(:any)',   'Api\APelicula::update/$1');
+    $routes->delete('api/pelicula/(:any)',  'Api\APelicula::delete/$1');
+
+    $routes->resource('Categoria');
+    $routes->get(   'api/categoria', 'Api\ACategoria::index');   
+      //http://peliculas.test/api/categoria    o    http://peliculas.test/api/categoria?format=json
+    $routes->get(   'api/categoria/(:any)',   'Api\ACategoria::show/$1');    
+    $routes->post(  'api/categoria',         'Api\ACategoria::create');    
+    $routes->put(   'api/categoria/(:any)',  'Api\ACategoria::update/$1');
+    $routes->patch( 'api/categoria/(:any)',  'Api\ACategoria::update/$1');
+    $routes->delete('api/categoria/(:any)',  'Api\ACategoria::delete/$1');
+    
+
+
+    
+/*
+    // agrupado para Api
+    $routes->group('api',['namespace' => 'App\Controllers\Api'],function($routes){
+      $routes->resource('pelicula');
+   });
+*/
+
   /*  esta es otra manera de crear las rutas
  $routes->group('dashboard',function($routes){
     $routes ->presenter('pelicula', ['controller'=>'Dasbboard\Pelicula'                    ]);
@@ -54,26 +84,44 @@ use CodeIgniter\Router\RouteCollection;
 */
 
 /*
-C:\laragon\www\peliculas
-λ php spark routes
+CodeIgniter v4.5.1 Command Line Tool - Server Time: 2024-05-03 22:11:55 UTC+00:00
 
-CodeIgniter v4.5.1 Command Line Tool - Server Time: 2024-04-25 02:40:44 UTC+00:00
++--------+-------------------------------------+-----------------------+--------------------------------------------------+-----------------+---------------+ 
+| Method | Route                               | Name                  | Handler                                          | Before Filters  | After Filters 
+| +--------+-------------------------------------+-----------------------+--------------------------------------------------+-----------------+---------------+
+ | GET    | dashboard/pelicula                  | »                     | \App\Controllers\Dashboard\CPelicula::index      | DashboardFilter |               | 
+ | GET    | dashboard/pelicula/show/(.*)        | »                     | \App\Controllers\Dashboard\CPelicula::show/$1    | DashboardFilter |               | 
+ | GET    | dashboard/pelicula/new              | »                     | \App\Controllers\Dashboard\CPelicula::new        | DashboardFilter |               | 
+ | GET    | dashboard/pelicula/edit/(.*)        | »                     | \App\Controllers\Dashboard\CPelicula::edit/$1    | DashboardFilter |               | 
+ | GET    | dashboard/categoria                 | »                     | \App\Controllers\Dashboard\CCategoria::index     | DashboardFilter |               | 
+ | GET    | dashboard/categoria/show/(.*)       | »                     | \App\Controllers\Dashboard\CCategoria::show/$1   | DashboardFilter |               | 
+ | GET    | dashboard/categoria/new             | »                     | \App\Controllers\Dashboard\CCategoria::new       | DashboardFilter |               | 
+ | GET    | dashboard/categoria/edit/(.*)       | »                     | \App\Controllers\Dashboard\CCategoria::edit/$1   | DashboardFilter |               | 
+ | GET    | dashboard/usuario/crear             | »                     | \App\Controllers\Web\CUsuario::crear_usuario     | DashboardFilter |               | 
+ | GET    | dashboard/usuario/probar_contrasena | »                     | \App\Controllers\Web\CUsuario::probar_contrasena | DashboardFilter |               | 
+ | GET    | login                               | usuario.login         | \App\Controllers\Web\CUsuario::login             |                 |               | 
+ | GET    | logout                              | usuario.logout        | \App\Controllers\Web\CUsuario::logout            |                 |               | 
+ | GET    | register                            | usuario.register      | \App\Controllers\Web\CUsuario::register          |                 |               | 
+ 
+ | POST   | dashboard/pelicula/create           | »                     | \App\Controllers\Dashboard\CPelicula::create     | DashboardFilter |               | 
+ | POST   | dashboard/pelicula/update/(.*)      | »                     | \App\Controllers\Dashboard\CPelicula::update/$1  | DashboardFilter |               | 
+ | POST   | dashboard/pelicula/delete/(.*)      | »                     | \App\Controllers\Dashboard\CPelicula::delete/$1  | DashboardFilter |               | 
+ | POST   | dashboard/categoria/create          | »                     | \App\Controllers\Dashboard\CCategoria::create    | DashboardFilter |               | 
+ | POST   | dashboard/categoria/update/(.*)     | »                     | \App\Controllers\Dashboard\CCategoria::update/$1 | DashboardFilter |               | 
+ | POST   | dashboard/categoria/delete/(.*)     | »                     | \App\Controllers\Dashboard\CCategoria::delete/$1 | DashboardFilter |               | 
+ | POST   | login_post                          | usuario.login_post    | \App\Controllers\Web\CUsuario::login_post        |                 |               | 
+ | POST   | register_post                       | usuario.register_post | \App\Controllers\Web\CUsuario::register_post     |                 |               | 
+ 
 
-+--------+-----------------------+------+---------------------------------------+----------------+---------------+
-| Method | Route                 | Name | Handler                               | Before Filters | After Filters |
-+--------+-----------------------+------+---------------------------------------+----------------+---------------+
-| GET    | cpelicula             | »    | \App\Controllers\Cpelicula::index     |                |               |  [ LISTO ]
-| GET    | cpelicula/show/(.*)   | »    | \App\Controllers\Cpelicula::show/$1   |                |               |  [ LISTO ]
-| GET    | cpelicula/new         | »    | \App\Controllers\Cpelicula::new       |                |               |  [ LISTO ]
-| GET    | cpelicula/edit/(.*)   | »    | \App\Controllers\Cpelicula::edit/$1   |                |               |
-| GET    | cpelicula/remove/(.*) | »    | \App\Controllers\Cpelicula::remove/$1 |                |               |
-| GET    | cpelicula/(.*)        | »    | \App\Controllers\Cpelicula::show/$1   |                |               |  
-| POST   | cpelicula/create      | »    | \App\Controllers\Cpelicula::create    |                |               |  [ LISTO ]
-| POST   | cpelicula/update/(.*) | »    | \App\Controllers\Cpelicula::update/$1 |                |               |
-| POST   | cpelicula/delete/(.*) | »    | \App\Controllers\Cpelicula::delete/$1 |                |               |
-| POST   | cpelicula             | »    | \App\Controllers\Cpelicula::create    |                |               |
-+--------+-----------------------+------+---------------------------------------+----------------+---------------+
-
+ 
+ | GET    | api/pelicula                        | »                     | \App\Controllers\Api\Pelicula::index             |                 |               | 
+ | GET    | api/pelicula/new                    | »                     | \App\Controllers\Api\Pelicula::new               |                 |               | 
+ | GET    | api/pelicula/(.*)/edit              | »                     | \App\Controllers\Api\Pelicula::edit/$1           |                 |               | 
+ | GET    | api/pelicula/(.*)                   | »                     | \App\Controllers\Api\Pelicula::show/$1           |                 |               | 
+ 
+ | POST   | api/pelicula                        | »                     | \App\Controllers\Api\Pelicula::create            |                 |               | 
+ | PATCH  | api/pelicula/(.*)                   | »                     | \App\Controllers\Api\Pelicula::update/$1         |                 |               | 
+ | PUT    | api/pelicula/(.*)                   | »                     | \App\Controllers\Api\Pelicula::update/$1         |                 |               | 
+ | DELETE | api/pelicula/(.*)                   | »                     | \App\Controllers\Api\Pelicula::delete/$1         |                 |               | 
+ +--------+-------------------------------------+-----------------------+--------------------------------------------------+-----------------+---------------+
 */
-
-
