@@ -51,7 +51,6 @@
                 <td>  <?= $p->descripcion ?> </td>                
                 <td> <a href="pelicula/show/<?= $p->id ?>" >  Show </a>  
                      <a href="pelicula/edit/<?= $p->id ?>" >  Editar </a>  
-                     <a href="<?= route_to('pelicula.etiquetas',$p->id) ?>" > Tags  </a>  
                      <form action="pelicula/delete/<?= $p->id ?>" method="post"> 
                         <button type="submit"> Eliminar </button>
                      </form>                
@@ -60,5 +59,6 @@
                 <?php endforeach ?>            
         </table>
 
+        
 
 <?= $this->endSection() ?>

@@ -12,6 +12,7 @@ class CCategoria extends BaseController
 
     public function index()
     {
+        
         session()->set('key','Valor de mi variable de session Key');
         $categoriaModel = new MCategoria();
         $data =['categoria'=>$categoriaModel->asObject()->findAll()];        
@@ -87,6 +88,7 @@ class CCategoria extends BaseController
             
         }
     }
+    
 // ************************************************************************************
 
     public function delete($id)

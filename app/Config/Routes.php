@@ -59,13 +59,35 @@ use CodeIgniter\Router\RouteCollection;
     $routes->resource('Categoria');
     $routes->get(   'api/categoria', 'Api\ACategoria::index');   
       //http://peliculas.test/api/categoria    o    http://peliculas.test/api/categoria?format=json
-    $routes->get(   'api/categoria/(:any)',   'Api\ACategoria::show/$1');    
+    $routes->get(   'api/categoria/(:any)',  'Api\ACategoria::show/$1');    
     $routes->post(  'api/categoria',         'Api\ACategoria::create');    
     $routes->put(   'api/categoria/(:any)',  'Api\ACategoria::update/$1');
     $routes->patch( 'api/categoria/(:any)',  'Api\ACategoria::update/$1');
     $routes->delete('api/categoria/(:any)',  'Api\ACategoria::delete/$1');
     
 
+    $routes->get(   'dashboard/pelicula/etiqueta/(:num)',               'Dashboard\CPelicula::etiquetas/$1',         ['as' => 'pelicula.etiquetas']); 
+    $routes->post(  'dashboard/pelicula/etiqueta/(:num)',               'Dashboard\CPelicula::etiquetas_post/$1',    ['as' => 'pelicula.etiquetas']);
+    $routes->post(  'dashboard/pelicula/(:num)/etiqueta/(:num)/delete', 'Dashboard\CPelicula::etiqueta_delete/$1/$2',['as' => 'pelicula.etiqueta_delete']);
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+    $routes->presenter('pelicula', ['controller' => 'Dashboard\Pelicula']);
+    $routes->presenter('etiqueta', ['controller' => 'Dashboard\Etiqueta']);
+    $routes->presenter('categoria', ['except' => ['show'], 'controller' => 'Dashboard\Categoria']);
+*/
 
     
 /*

@@ -4,40 +4,18 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class MPelicula extends Model
+class MPeliculaImagen extends Model
 {
-    protected $table            = 'peliculas';    
-    protected $primaryKey       = 'id';
-    protected $returnType       = 'object';
-    protected $allowedFields    = ['titulo','descripcion','categoria_id'];  // campos que seran editable4s
-
-    public function getImagesById($id)
-    {
-        return $this->select("i.*")
-            ->join('pelicula_imagen as pi', 'pi.pelicula_id = peliculas.id')
-            ->join('imagenes as i', 'i.id = pi.imagen_id')
-            ->where('peliculas.id', $id)
-            ->findAll();
-    }
-
-    public function getEtiquetasById($id)
-    {
-        return $this->select('e.*')
-            ->join('pelicula_etiqueta as pe', 'pe.pelicula_id = peliculas.id')
-            ->join('etiquetas as e', 'e.id = pe.etiqueta_id')
-            ->where('peliculas.id', $id)
-            ->findAll();
-    }
-
-
-
-    // esto no lo estaremos utilizando
-    /*    
-    protected $useAutoIncrement = true;
+    protected $table            = 'pelicula_imagen';
+    protected $allowedFields    = ['pelicula_id','imagen_id'];
+    /*
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     
+
+    protected $primaryKey       = 'id';
+    protected $useAutoIncrement = true;
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

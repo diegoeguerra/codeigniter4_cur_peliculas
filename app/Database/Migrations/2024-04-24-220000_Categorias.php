@@ -8,6 +8,8 @@ class Categorias extends Migration
 {
     public function up()
     {
+        //$this->forge->dropTable('categorias');
+
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',

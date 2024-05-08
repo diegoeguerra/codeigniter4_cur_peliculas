@@ -9,7 +9,9 @@ class Peliculas extends Migration
     
     public function up()
     {
-       $this->forge->addField([
+        //$this->forge->dropTable('peliculas');
+        
+        $this->forge->addField([
             'id' => [
                 'type' => 'INT',
                 'constraint' =>5,   // longitud
@@ -23,11 +25,20 @@ class Peliculas extends Migration
             'descripcion' => [
                 'type' => 'TEXT',
                 'null' => TRUE
-            ]
+            ],
+            'categoria_id' => [
+                'type' => 'INT',
+                'constraint' =>5,   // longitud
+                'unsigned' => TRUE                
+            ],
         ]);
 
         $this->forge->addKey('id',TRUE);
+        $this->forge->addForeignKey('categoria_id','categorias','id','CASCADE','CASCADE');
         $this->forge->createTable('peliculas');
+
+       
+
     }
 
     public function down()
