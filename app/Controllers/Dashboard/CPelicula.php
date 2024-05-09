@@ -8,6 +8,7 @@ use App\Models\MEtiqueta;
 use App\Models\MImagen;
 use App\Models\MPeliculaimagen;
 use App\Models\MPeliculaEtiqueta;
+use App\Libraries\LAyuda;
 
 use App\Controllers\BaseController;
 
@@ -181,22 +182,21 @@ class CPelicula extends BaseController
 
     public function update($id)
     {     
+        $layuda       = new LAyuda();
         $data =[
             'titulo'       => $this->request->getPost('titulo'),
             'categoria_id' => $this->request->getPost('categoria_id'),
             'descripcion'  => $this->request->getPost('descripcion')
           ];               
-
-        //var_dump($data);
-
         $peliculaModel = new MPelicula();
 
-        if( $this->validate('peliculas')){ // agregamos validaciones configurada en el archivo validation.php
-            $peliculaModel->update($id,$data) ; 
-            
+        if( $this->validate('peliculas')){ // agregamos validaciones configurada en el archivo validation.php                        
+            $peliculaModel->update($id,$data) ;             
+            $this->asignar_imagen($id);            
             // si las validaciones las cumple regresa a la pantalla principal
             return redirect()->to('dashboard/pelicula')->with('Mensaje','Registro Actualizado correctamente'); 
         }else{
+            //var_dump('No paso validacion');
             //var_dump( $this->validator->getError('titulo'));
             //var_dump( $this->validator->listErrors());
             session()->setFlashdata([
@@ -205,7 +205,7 @@ class CPelicula extends BaseController
             // si no pasa las validaciones 
             // regresa a su propia pantalla con un mensaje de error que se despliega en vedit.php  view('partials/_form-error.php')
              // ->withInput();   le pasa los valores ingresados al formulario esto es paera que no se pierdan
-             return redirect()->back()->withInput();
+             //return redirect()->back()->withInput();
         }
     }
 
@@ -295,6 +295,7 @@ class CPelicula extends BaseController
 
     } 
 
+    /*
     private function asignar_imagen() 
     {
         $peliculaimagenModel = new MPeliculaimagen();
@@ -304,6 +305,168 @@ class CPelicula extends BaseController
         ]
         );
 
+    } */
+
+    private function asignar_imagen($peliculaId)     
+    {
+        $layuda       = new LAyuda();
+
+        if($imagefile = $this->request->getFile('imagen')){
+            
+            //upload
+                if($imagefile->isValid())
+                {            
+                    
+                    $validationRule = [
+                        'imagen' => [
+                            'label' => 'Image File',
+                            'rules' => [
+                                'uploaded[imagen]',
+                                'is_image[imagen]',
+                                'mime_in[imagen,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
+                                'max_size[imagen,4096]',
+                                'max_dims[imagen,1024,768]',
+                            ],
+                        ],
+                    ];
+
+                    if (! $this->validateData([], $validationRule)) {
+                        $data = ['errors' => $this->validator->getErrors()];            
+                        //return view('upload_form', $data);
+                        $layuda->imprime_msg_web('mensaje','no es una imagen, ' . $this->validator->listErrors());
+                    }else{
+                        $imageNombre = $imagefile->getRandomName();
+                        $ext = $imagefile->guessExtension();
+                        //$imagefile->move(WRITEPATH . 'uploads/peliculas',$imageNombre );
+                        
+                        // se coloco en este directoria ya que se purede consumir desde la web
+                       //  http://peliculas.test/uploads/peliculas/1715198606_1a7591dce7154bb131d6.jpg
+                        $imagefile->move('../public/uploads/peliculas', $imageNombre);
+
+                        $imagenModel = new MImagen();                     
+                        
+                        $imagenId = $imagenModel->insert([
+                            'imagen' => $imageNombre,
+                            'extension' => $ext,
+                            'data' => 'Pendiente'
+                        ]);
+    
+                        $peliculaImagenModel = new MPeliculaImagen();
+                        $peliculaImagenModel->insert([
+                            'imagen_id' => $imagenId,
+                            'pelicula_id' => $peliculaId,
+                        ]);
+                        
+
+                    }
+
+                    /*
+
+                    
+                    $validated = $this->validate([
+                        'uploaded[imagen]',
+                        'mime_in[imagen,image/jpg,image/gif,image/png]',
+                        'max_size[imagen,4096]',
+                    ]);
+
+                    if ($validated){
+                        
+                        $imageNombre = $imagefile->getRandomName();
+                        $imagefile->move(WRITEPATH . 'uploads/peliculas',$imageNombre );
+
+                    } else{
+                    
+                        $layuda->imprime_msg_web('mensaje','no es una imagen, ' . $this->validator->listErrors());
+                    }
+                    
+                    $imageNombre = $imagefile->getRandomName();
+                    $imagefile->move(WRITEPATH . 'uploads/peliculas',$imageNombre );
+                 */   
+                }
+                
+                return $this->validator->listErrors();           
+            }
+            
+
+    }
+
+    function image($image)
+    {
+        // abre el archivo en modo binario desde la carpeta que no se tiene acceso publicam,ente, esto es para proteger el archivo.
+        if (!$image) {
+            $image = $this->request->getGet('image');
+        }
+        $name = WRITEPATH . 'uploads/peliculas/' . $image;
+
+        if (!file_exists($name)) {
+            //throw PageNotFoundException::forPageNotFound();
+        }
+
+        $fp = fopen($name, 'rb');
+
+        // envía las cabeceras correctas
+        header("Content-Type: image/png");
+        header("Content-Length: " . filesize($name));
+
+        // vuelca la imagen y detiene el script
+        fpassthru($fp);
+        exit;
+    }
+
+    public function borrar_imagen($peliculaId,$imagenId){
+
+        $imagenModel         = new MImagen();
+        $peliculaModel       = new MPelicula();
+        $peliculaImagenModel = new MPeliculaImagen();
+        $layuda              = new LAyuda();
+
+
+        $layuda->imprime_msg_web('imagenId',$imagenId);
+        $layuda->imprime_msg_web('peliculaId',$peliculaId);
+        
+
+        $imagen = $imagenModel->find($imagenId);
+
+        //$layuda->imprime_msg_web('imagen',$imagen);
+
+        //archivo
+        if ($imagen == null) {
+            return 'no existe imagen..';
+        }
+        //$imageRuta = WRITEPATH . 'uploads/peliculas/' . $imagen->imagen;
+        $imageRuta =  'uploads/peliculas/' . $imagen->imagen;
+        // archivo
+
+        // eliminar pivote
+        $peliculaImagenModel
+        ->where('imagen_id', $imagenId)
+        ->where('pelicula_id', $peliculaId)
+        ->delete();
+
+        if ($peliculaImagenModel->where('imagen_id', $imagenId)->countAllResults() == 0) {
+            // eliminar toda la imagen
+            unlink($imageRuta);
+            $imagenModel->delete($imagenId);
+        }
+
+        return redirect()->back()->with('mensaje', 'Imagen Eliminada');
+    }
+
+
+    public function descargar_imagen($imagenId)
+    {
+        $imagenModel = new MImagen();
+
+        $imagen = $imagenModel->find($imagenId);
+
+        if ($imagen == null) {
+            return 'no existe imagen';
+        }
+
+        //$imageRuta = WRITEPATH . 'uploads/peliculas/' . $imagen->imagen;
+        $imageRuta =  'uploads/peliculas/' . $imagen->imagen;
+
+        return $this->response->download($imageRuta, null)->setFileName('imagen.png');
     }
 
 /*

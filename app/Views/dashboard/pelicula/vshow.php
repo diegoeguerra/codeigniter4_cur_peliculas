@@ -8,7 +8,16 @@
 
 <ul>
     <?php foreach ($imagenes as $i) : ?>
-        <li><?= $i->imagen ?></li>
+        <li>
+            <img src="/uploads/peliculas/<?= $i->imagen ?>" width="200">
+            <form action="<?= route_to('pelicula.borrar_imagen', $pelicula->id, $i->id) ?>" method="post">
+                <button type="submit">Borrar</button>
+            </form>
+            <form action="<?= route_to('pelicula.descargar_imagen', $i->id) ?>" method="get">
+                <button type="submit">Descargar</button>
+            </form>
+
+        </li>
     <?php endforeach ?>
 </ul>
 
@@ -16,14 +25,14 @@
 
 <?php foreach ($etiquetas as $e) : ?>
     <!-- <form action="<?= route_to('pelicula.etiqueta_delete', $pelicula->id, $e->id) ?>" method="post"> -->
-    <button data-url='<?= route_to('pelicula.etiqueta_delete', $pelicula->id, $e->id) ?>' class="delete_etiqueta"><?= $e->titulo ?></button>
+    <button data-url='<?= route_to('pelicula.etiqueta_delete',  $pelicula->id, $e->id) ?>' class="delete_etiqueta"><?= $e->titulo ?></button>
     <!-- </form> -->
 <?php endforeach ?>
 <script>
     document.querySelectorAll('.delete_etiqueta').forEach((b) => {
-        console.log(b.getAttribute('data-url'))
+        //console.log(b.getAttribute('data-url'))
         b.onclick = function(event) {
-            console.log(this.getAttribute('data-url'))
+            //console.log(this.getAttribute('data-url'))
             fetch(this.getAttribute('data-url'), {
                     method: 'POST'
                 }).then(res => res.json())
@@ -33,7 +42,6 @@
                 })
 
         }
-       
 
     })
 </script>

@@ -65,20 +65,13 @@ use CodeIgniter\Router\RouteCollection;
     $routes->patch( 'api/categoria/(:any)',  'Api\ACategoria::update/$1');
     $routes->delete('api/categoria/(:any)',  'Api\ACategoria::delete/$1');
     
-
     $routes->get(   'dashboard/pelicula/etiqueta/(:num)',               'Dashboard\CPelicula::etiquetas/$1',         ['as' => 'pelicula.etiquetas']); 
     $routes->post(  'dashboard/pelicula/etiqueta/(:num)',               'Dashboard\CPelicula::etiquetas_post/$1',    ['as' => 'pelicula.etiquetas']);
-    $routes->post(  'dashboard/pelicula/(:num)/etiqueta/(:num)/delete', 'Dashboard\CPelicula::etiqueta_delete/$1/$2',['as' => 'pelicula.etiqueta_delete']);
-    
+    $routes->post(  'dashboard/pelicula/(:num)/etiqueta/(:num)/delete', 'Dashboard\CPelicula::etiqueta_delete/$1/$2',['as' => 'pelicula.etiqueta_delete']);    
 
-
-
-
-
-
-
-
-
+    $routes->get(   'image/(:any)',                                     'Dashboard\CPelicula::image/$1',             ['as' => 'get_image']); 
+    $routes->post(  'dashboard/pelicula/imagen_delete/(:num)/(:num)',   'Dashboard\CPelicula::borrar_imagen/$1/$2',  ['as' => 'pelicula.borrar_imagen']);
+    $routes->get(   'dashboard/imagen_descargar/(:num)',                'Dashboard\CPelicula::descargar_imagen/$1',  ['as' => 'pelicula.descargar_imagen']);
 
 
 
